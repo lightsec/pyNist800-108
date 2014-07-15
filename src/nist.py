@@ -5,7 +5,6 @@ Created on 14/07/2014
 @author: Aitor Gomez Goiri
 '''
 
-import base64
 from hmac import HMAC
 
 class NIST(object):
@@ -39,9 +38,8 @@ class NIST(object):
         assert outputSizeBits >= 56, "Key has size of %d, which is less than minimum of 56-bits." % outputSizeBits
         assert (outputSizeBits % 8) == 0, "Key size (%d) must be a even multiple of 8-bits." % outputSizeBits
         
-        outputSizeBytes = self._calc_key_size(outputSizeBits); # Safely convert to
-                                                        # whole # of bytes.
-        derivedKey = [] #bytearray()
+        outputSizeBytes = self._calc_key_size(outputSizeBits); # Safely convert to whole # of bytes.
+        derivedKey = [] # bytearray() (better to use this?)
                 
         # Repeatedly call of HmacSHA1 hash until we've collected enough bits
         # for the derived key.
@@ -52,37 +50,23 @@ class NIST(object):
         tmpKey = None
         
         while True: # ugly translation of do-while
-            self.hmac.update( self._to_one_byte(ctr) );
+            self.hmac.update( self._to_one_byte(ctr) )
             ctr += 1 # note that the maximum value of ctr is 127 (1 byte only)
-                                            
-            # According to the Javadoc for Mac.doFinal(byte[]),
-            # "A call to this method resets this Mac object to the state it was
-            # in when previously initialized via a call to init(Key) or
-            # init(Key, AlgorithmParameterSpec). That is, the object is reset
-            # and available to generate another MAC from the same key, if
-            # desired, via new calls to update and doFinal." Therefore, we do
-            # not do an explicit reset() and don't need to feed KDK again?
-            self.hmac.update(fixedInput) #doFinal(fixedInput);
-            tmpKey = self.hmac.hexdigest() # in str, but not in python format (e.g u'\xab\x02')!
-            # pretty sure that using digest() I could "save" the half of the bytes used,
-            # but then I don't know how to make the copy at byte level
-            print bytearray(self.hmac.digest())
+            
+            self.hmac.update(fixedInput)
+            tmpKey = self.hmac.digest() # type: string
             
             if len(tmpKey) >= outputSizeBytes:
-                lenn = outputSizeBytes;
+                lenn = outputSizeBytes
             else:
-                lenn = min(len(tmpKey), outputSizeBytes - totalCopied);
+                lenn = min(len(tmpKey), outputSizeBytes - totalCopied)
             
             #System.arraycopy(tmpKey, 0, derivedKey, destPos, lenn);
-            derivedKey[destPos:destPos+lenn] = tmpKey[:lenn*2]
+            derivedKey[destPos:destPos+lenn] = tmpKey[:lenn]
             totalCopied += len(tmpKey)
             destPos += lenn
             
             if totalCopied >= outputSizeBytes: # ugly translation of do-while
                 break
         
-        #return derivedKey
-        ret = ""
-        for i in range(0, len(derivedKey), 2):
-            ret += "/x%s%s" % (derivedKey[i], derivedKey[i+1])
-        return ret
+        return bytearray( derivedKey )
