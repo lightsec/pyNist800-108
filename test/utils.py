@@ -31,5 +31,5 @@ if __name__ == "__main__":
 	bArray = javahex_to_pythonhex(javaArrayBytes)
 	#print bArray.decode()
 	
-	print b"%s" % hexstr_to_pythonhexstr("365047101061fd650db1c8356da8a3cc1494c0ec7f9eda7264150391ed07bcb15d86fba7399861061dd37cddbbdad38d1d4902d39ce1f0cd627965fe")
+	print "b'%s'" % hexstr_to_pythonhexstr("c8c4f85382b3e3d4acc884fdff98582d0c8c61f69d381b0c0803bef29bd4e142784522386a86ee0f864bffc5ff13eb7cb06a6e324e98eb6d561ecbb3")
 	

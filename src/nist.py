@@ -9,9 +9,13 @@ from hmac import HMAC
 
 class NIST(object):
     
+    def _get_reseted_hmac(self):
+        return HMAC(self.secret, digestmod=self.digestmod)
+        
     def set_hmac(self, digestmod, secret):
-        assert secret != None, "Key derivation key cannot be null.";
-        self.hmac = HMAC(secret, digestmod=digestmod)
+        assert secret != None, "Key derivation key cannot be null."
+        self.secret = secret
+        self.digestmod = digestmod
             
     # Calculate the size of a key. The key size is given in bits, but we can
     # only allocate them by octets (i.e., bytes), so make sure we round up to
@@ -34,6 +38,10 @@ class NIST(object):
         output.append(inByte)
         return output;
     
+    def _debug_string_as_bytes(self, array_alpha):
+        import binascii
+        print binascii.hexlify(array_alpha)
+    
     def derive_key(self, outputSizeBits, fixedInput):
         assert outputSizeBits >= 56, "Key has size of %d, which is less than minimum of 56-bits." % outputSizeBits
         assert (outputSizeBits % 8) == 0, "Key size (%d) must be a even multiple of 8-bits." % outputSizeBits
@@ -50,11 +58,13 @@ class NIST(object):
         tmpKey = None
         
         while True: # ugly translation of do-while
-            self.hmac.update( self._to_one_byte(ctr) )
+            hmac = self._get_reseted_hmac() 
+            hmac.update( self._to_one_byte(ctr) )
             ctr += 1 # note that the maximum value of ctr is 127 (1 byte only)
             
-            self.hmac.update(fixedInput)
-            tmpKey = self.hmac.digest() # type: string
+            hmac.update(fixedInput)
+            tmpKey = hmac.digest() # type: string
+            #print self._debug_string_as_bytes(tmpKey)
             
             if len(tmpKey) >= outputSizeBytes:
                 lenn = outputSizeBytes
@@ -68,5 +78,7 @@ class NIST(object):
             
             if totalCopied >= outputSizeBytes: # ugly translation of do-while
                 break
+            
+            #print ''.join([x.encode("hex") for x in derivedKey]) #[hex(x) for x in derivedKey]
         
         return bytearray( derivedKey )

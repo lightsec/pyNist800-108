@@ -67,7 +67,31 @@ class NISTTest(unittest.TestCase):
         case["fixedInput"] = bytearray( b'\x36\x50\x47\x10\x10\x61\xfd\x65\x0d\xb1\xc8\x35\x6d\xa8\xa3\xcc\x14\x94\xc0\xec\x7f\x9e\xda\x72\x64\x15\x03\x91\xed\x07\xbc\xb1\x5d\x86\xfb\xa7\x39\x98\x61\x06\x1d\xd3\x7c\xdd\xbb\xda\xd3\x8d\x1d\x49\x02\xd3\x9c\xe1\xf0\xcd\x62\x79\x65\xfe' )
         case["ko"] = bytearray( b'\x05\xe1\xa3\x44\xb0\x73\x11\x7c\xb8\x74\x36\x47\xe5\x32\x04\x49' )
         self._test_NIST_UseCase( case )
-
+        
+    def test_NIST3(self):
+        """
+        [PRF=HMAC_SHA1]
+        [CTRLOCATION=BEFORE_FIXED]
+        [RLEN=8_BITS]
+        L = 512
+        KI = eda0134ca5238efece65a5ee02bc356f4fe0d5d4
+        FixedInputDataByteLen = 60
+        FixedInputData = c8c4f85382b3e3d4acc884fdff98582d0c8c61f69d381b0c0803bef29bd4e142784522386a86ee0f864bffc5ff13eb7cb06a6e324e98eb6d561ecbb3
+               Binary rep of i = 01
+               instring = 01c8c4f85382b3e3d4acc884fdff98582d0c8c61f69d381b0c0803bef29bd4e142784522386a86ee0f864bffc5ff13eb7cb06a6e324e98eb6d561ecbb3
+               Binary rep of i = 02
+               instring = 02c8c4f85382b3e3d4acc884fdff98582d0c8c61f69d381b0c0803bef29bd4e142784522386a86ee0f864bffc5ff13eb7cb06a6e324e98eb6d561ecbb3
+               Binary rep of i = 03
+               instring = 03c8c4f85382b3e3d4acc884fdff98582d0c8c61f69d381b0c0803bef29bd4e142784522386a86ee0f864bffc5ff13eb7cb06a6e324e98eb6d561ecbb3
+               Binary rep of i = 04
+               instring = 04c8c4f85382b3e3d4acc884fdff98582d0c8c61f69d381b0c0803bef29bd4e142784522386a86ee0f864bffc5ff13eb7cb06a6e324e98eb6d561ecbb3
+        KO = 5d791c5b6a337cfb4d3b9cf73dd2afc5ff3fe1737880e54bff2f457750398b55fb4ae1c39a4c86dd72ffd453bbf4dccbeaf9a09b2e5ffe4d41f56a67898484a0
+        """
+        case = {"l": 512, "digestmod": hashlib.sha1, "ki": None, "fixedInput": None, "ko": None}
+        case["ki"] = bytearray( b'\xed\xa0\x13\x4c\xa5\x23\x8e\xfe\xce\x65\xa5\xee\x02\xbc\x35\x6f\x4f\xe0\xd5\xd4' )
+        case["fixedInput"] = bytearray( b'\xc8\xc4\xf8\x53\x82\xb3\xe3\xd4\xac\xc8\x84\xfd\xff\x98\x58\x2d\x0c\x8c\x61\xf6\x9d\x38\x1b\x0c\x08\x03\xbe\xf2\x9b\xd4\xe1\x42\x78\x45\x22\x38\x6a\x86\xee\x0f\x86\x4b\xff\xc5\xff\x13\xeb\x7c\xb0\x6a\x6e\x32\x4e\x98\xeb\x6d\x56\x1e\xcb\xb3' )
+        case["ko"] = bytearray( b'\x5d\x79\x1c\x5b\x6a\x33\x7c\xfb\x4d\x3b\x9c\xf7\x3d\xd2\xaf\xc5\xff\x3f\xe1\x73\x78\x80\xe5\x4b\xff\x2f\x45\x77\x50\x39\x8b\x55\xfb\x4a\xe1\xc3\x9a\x4c\x86\xdd\x72\xff\xd4\x53\xbb\xf4\xdc\xcb\xea\xf9\xa0\x9b\x2e\x5f\xfe\x4d\x41\xf5\x6a\x67\x89\x84\x84\xa0' )
+        self._test_NIST_UseCase( case )
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
