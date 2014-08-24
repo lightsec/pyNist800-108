@@ -6,12 +6,12 @@ Created on 14/07/2014
 
 import unittest
 import hashlib
-import nist
+from kdf.nist import NIST
 
 class NISTTest(unittest.TestCase):
     
     def setUp(self):
-        self.nist = nist.NIST()
+        self.nist = NIST()
         
     def _test_NIST_UseCase(self, testCase):
         self.nist.set_hmac( testCase["digestmod"], testCase["ki"] );
