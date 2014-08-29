@@ -14,7 +14,7 @@ class NISTTest(unittest.TestCase):
         self.nist = NIST()
         
     def _test_NIST_UseCase(self, testCase):
-        self.nist.set_hmac( testCase["digestmod"], testCase["ki"] );
+        self.nist.set_hmac( testCase["digestmod"], testCase["ki"] )
         #ret = self.nist.derive_key( len(testCase["ko"])*8, testCase["fixedInput"] )
         ret = self.nist.derive_key( testCase["l"], testCase["fixedInput"] )
         self.assertSequenceEqual(ret, testCase["ko"])
