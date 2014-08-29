@@ -19,15 +19,15 @@ setup(name="pynist800108",
       maintainer = "Aitor Gomez-Goiri",
       maintainer_email = "aitor.gomez@deusto.es",
       url = "https://github.com/gomezgoiri/pyNist800-108",
-      packages = ["kdf"],
       #download_url = "https://github.com/gomezgoiri/pyNist800-108/zipball/master",
       #license = "http://www.apache.org/licenses/LICENSE-2.0",
       platforms = ["any"],
       package_dir = {
         '': 'src',
       },
-      packages = find_packages('src'),  # include all packages under src
-      #install_requires = ['REQ1', 'REQ2'],
+      packages = ["kdf"],
+      # packages = find_packages('src'),  # include all packages under src
+      # install_requires = ['REQ1', 'REQ2'],
+      # entry_points = {}
       keywords = "security lightweight sensor gateway authentication authorization iot things python",
-      #entry_points = {}
 )
