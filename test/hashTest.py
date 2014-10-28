@@ -29,7 +29,6 @@ class NISTTest(unittest.TestCase):
         hmac = HMAC(k_hex, digestmod=hashlib.sha1)
         self.assertEquals(hmac.hexdigest(), self.result['empty'])
         
-                
         k_hex = binascii.hexlify("key")
         d_hex = binascii.hexlify("The quick brown fox jumps over the lazy dog")
                 
@@ -48,16 +47,19 @@ class NISTTest(unittest.TestCase):
         hmac.update("The quick brown fox jumps over the lazy dog")
         self.assertEquals(hmac.hexdigest(), self.result['not_empty'])
     
-    def ttest_crypto_package_hex(self):
+    def test_crypto_package_hex(self):
         from Crypto.Hash import HMAC
         
         k_hex = binascii.hexlify("")
         hmac = HMAC.new(k_hex, digestmod=SHA1Hash())
         self.assertEquals(hmac.hexdigest(), self.result['empty'])
+                
+        # binascii.hexlify(ki)
+        k_hex = bytearray( b'\x6b\x65\x79' )
+        # binascii.hexlify("The quick brown fox jumps over the lazy dog")
+        d_hex = bytearray( b'\x54\x68\x65\x20\x71\x75\x69\x63\x6b\x20\x62\x72\x6f\x77\x6e\x20\x66\x6f\x78\x20\x6a\x75\x6d\x70\x73\x20\x6f\x76\x65\x72\x20\x74\x68\x65\x20\x6c\x61\x7a\x79\x20\x64\x6f\x67' ) 
         
-        k_hex = binascii.hexlify("key")
-        d_hex = binascii.hexlify("The quick brown fox jumps over the lazy dog")
-        hmac = HMAC.new(k_hex, msg=d_hex, digestmod=SHA1Hash())
+        hmac = HMAC.new(str(k_hex.decode("utf-8")), msg=str(d_hex.decode("utf-8")), digestmod=SHA1Hash())
         # hmac.update(d_hex) # or without "msg" param and with this call
         self.assertEquals(hmac.hexdigest(), self.result['not_empty'])
 
