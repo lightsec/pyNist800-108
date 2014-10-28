@@ -40,9 +40,9 @@ class AbstractNIST(object):
         output.append(inByte)
         return output;
     
-    def _debug_string_as_bytes(self, array_alpha):
-        import binascii
-        print binascii.hexlify(array_alpha)
+    # def _debug_string_as_bytes(self, array_alpha):
+    #     import binascii
+    #     print binascii.hexlify(array_alpha)
     
     def derive_key(self, outputSizeBits, fixedInput):
         assert outputSizeBits >= 56, "Key has size of %d, which is less than minimum of 56-bits." % outputSizeBits
@@ -67,6 +67,7 @@ class AbstractNIST(object):
             hmac.update(fixedInput)
             tmpKey = hmac.digest() # type: string
             #print self._debug_string_as_bytes(tmpKey)
+            # or simply hmac.hexdigest()
             
             if len(tmpKey) >= outputSizeBytes:
                 lenn = outputSizeBytes

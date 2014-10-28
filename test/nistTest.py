@@ -9,11 +9,11 @@ import hashlib
 
 class NISTTest(unittest.TestCase):
     
-    def _test_NIST_UseCase(self, nist_obj, testCase):
+    def _test_NIST_UseCase(self, nist_obj, testCase, error_msg):
         nist_obj.set_hmac( testCase["digestmod"], testCase["ki"] )
         #ret = self.nist.derive_key( len(testCase["ko"])*8, testCase["fixedInput"] )
         ret = nist_obj.derive_key( testCase["l"], testCase["fixedInput"] )
-        self.assertSequenceEqual(ret, testCase["ko"])
+        self.assertSequenceEqual(ret, testCase["ko"], error_msg)
     
     def _test_using_hmac_library(self, generic_case):
         # less things to do because this test suite was originally conceived for hmac implementation
@@ -26,7 +26,7 @@ class NISTTest(unittest.TestCase):
             raise Exception("Digest mode not considered.")
         
         from kdf.lhmac import NIST
-        self._test_NIST_UseCase( NIST(), case )
+        self._test_NIST_UseCase( NIST(), case, "hmac library based implementation" )
     
     def _test_using_crypto_library(self, generic_case):
         case = generic_case.copy()
@@ -45,7 +45,7 @@ class NISTTest(unittest.TestCase):
         case["ko"] = str(case["ko"])
         
         from kdf.lcrypto import NIST
-        self._test_NIST_UseCase( NIST(), case )
+        self._test_NIST_UseCase( NIST(), case, "crypto library based implementation" )
     
     def test_NIST1(self):
         """
