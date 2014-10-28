@@ -60,6 +60,7 @@ class NIST(object):
         while True: # ugly translation of do-while
             hmac = self._get_reseted_hmac() 
             hmac.update( self._to_one_byte(ctr) )
+            
             ctr += 1 # note that the maximum value of ctr is 127 (1 byte only)
             
             hmac.update(fixedInput)
