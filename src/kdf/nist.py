@@ -4,13 +4,15 @@ Created on 14/07/2014
 
 @author: Aitor Gomez Goiri
 '''
+from abc import ABCMeta, abstractmethod
 
-from hmac import HMAC
-
-class NIST(object):
+class AbstractNIST(object):
     
+    __metaclass__ = ABCMeta
+    
+    @abstractmethod
     def _get_reseted_hmac(self):
-        return HMAC(self.secret, digestmod=self.digestmod)
+        pass
         
     def set_hmac(self, digestmod, secret):
         assert secret != None, "Key derivation key cannot be null."
@@ -58,9 +60,8 @@ class NIST(object):
         tmpKey = None
         
         while True: # ugly translation of do-while
-            hmac = self._get_reseted_hmac() 
+            hmac = self._get_reseted_hmac()
             hmac.update( self._to_one_byte(ctr) )
-            
             ctr += 1 # note that the maximum value of ctr is 127 (1 byte only)
             
             hmac.update(fixedInput)

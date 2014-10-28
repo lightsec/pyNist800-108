@@ -6,7 +6,7 @@ Created on 14/07/2014
 
 import unittest
 import hashlib
-from kdf.nist import NIST
+from kdf.hmac import NIST
 
 class NISTTest(unittest.TestCase):
     
