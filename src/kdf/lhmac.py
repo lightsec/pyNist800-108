@@ -15,4 +15,4 @@ from kdf.nist import AbstractNIST
 class NIST(AbstractNIST):
     
     def _get_reseted_hmac(self):
-        return lHMAC(self.secret, digestmod=self.digestmod)
+        return lHMAC(self.secret, msg=self.salt, digestmod=self.digestmod)

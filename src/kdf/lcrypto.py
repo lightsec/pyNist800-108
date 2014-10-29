@@ -10,4 +10,5 @@ from kdf.nist import AbstractNIST
 class NIST(AbstractNIST):
     
     def _get_reseted_hmac(self):
-        return cHMAC.new(self.secret, digestmod=self.digestmod)
+        # http://crypto.stackexchange.com/questions/8272/injecting-salt-into-pycrypto-kdf-useful
+        return cHMAC.new(self.secret, msg=self.salt, digestmod=self.digestmod)

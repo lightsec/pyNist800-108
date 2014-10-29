@@ -14,8 +14,9 @@ class AbstractNIST(object):
     def _get_reseted_hmac(self):
         pass
         
-    def set_hmac(self, digestmod, secret):
+    def set_hmac(self, digestmod, secret, salt=None):
         assert secret != None, "Key derivation key cannot be null."
+        self.salt = salt
         self.secret = secret
         self.digestmod = digestmod
             
