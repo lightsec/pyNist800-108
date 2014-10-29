@@ -6,7 +6,6 @@ Created on 14/07/2014
 
 import unittest
 import binascii
-from kdf.nist_crypto import NIST
 from Crypto.Hash.SHA import SHA1Hash
 
 class NISTTest(unittest.TestCase):

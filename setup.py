@@ -4,9 +4,9 @@ Created on Ago 28, 2014
 @author: Aitor Gómez Goiri <aitor.gomez@deusto.es>
 
 To install/reinstall/uninstall the project and its dependencies using pip:
-     sudo pip install ./
-     sudo pip install ./ --upgrade
-     sudo pip uninstall netuse
+     pip install ./
+     pip install ./ --upgrade
+     pip uninstall pynist800108
 '''
 from setuptools import setup, find_packages
 
