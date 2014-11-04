@@ -1,1 +1,3 @@
-pycrypto==2.6.1
+
+# Let's reuse the requirements specified in setup.py
+-e .

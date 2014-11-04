@@ -8,7 +8,7 @@ To install/reinstall/uninstall the project and its dependencies using pip:
      pip install ./ --upgrade
      pip uninstall pynist800108
 '''
-from setuptools import setup, find_packages
+from setuptools import setup #, find_packages
 
 setup(name="pynist800108",
       version="0.1",
@@ -26,8 +26,13 @@ setup(name="pynist800108",
         '': 'src',
       },
       packages = ["kdf"],
-      # packages = find_packages('src'),  # include all packages under src
-      # install_requires = ['REQ1', 'REQ2'],
+      # Or to include all packages under src...
+      # from setuptools import find_packages
+      # packages = find_packages('src'),
+      
+      install_requires = [
+	"pycrypto>=2.6.1"
+      ],
       # entry_points = {}
       keywords = "security lightweight sensor gateway authentication authorization iot things python",
 )
